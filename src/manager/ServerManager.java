@@ -17,6 +17,7 @@ public class ServerManager implements CommandExecutor{
 	private EventManager eventManager;
 	private final String BASE_CMD = "swl";
 	private final String HELP_CMD = "help";
+	private final String VERSION = "version";
 	private Messenger messenger;
 	private ConsoleCommandSender console;
 
@@ -34,24 +35,22 @@ public class ServerManager implements CommandExecutor{
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		Player player = (Player) sender;
 		if(sender instanceof Player){
 			if(label.equalsIgnoreCase(BASE_CMD)){
 				if(args.length > 0){
 					if(args[0].equalsIgnoreCase(HELP_CMD)){
-						messenger.sendHelpMessage(player);
+						messenger.sendHelpMessage(sender);
 					}
 				}else{
-					messenger.sendSyntaxMessage(player);
+					messenger.sendSyntaxMessage(sender);
+				}
+				if(args[0].equalsIgnoreCase(VERSION)){
+					messenger.sendVersionMessage(sender);
 				}
 			}
 		}else{
 			if(label.equalsIgnoreCase(BASE_CMD)){
-				if(args.length > 0){
-					messenger.sendVersionMessage(console);
-				}else{
-					messenger.sendVersionMessage(console);
-				}
+				messenger.sendVersionMessage(sender);
 			}
 		}
 		return false;

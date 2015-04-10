@@ -3,7 +3,6 @@ package language;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 
 public class Messenger {
 
@@ -12,6 +11,7 @@ public class Messenger {
 	private final String COMMANDS = ChatColor.GRAY + "Commands:";
 	private final String NEW_LINE = "\n";
 	private final String TOGGLE = ChatColor.GRAY + "Toggle Placement: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl toggle";
+	private final String VERSION_COMMAND = ChatColor.GRAY + "Show Version: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl version";
 	private final String VERSION_MESSAGE;
 	private String name;
 	private String version;
@@ -25,16 +25,14 @@ public class Messenger {
 	}
 
 	public void sendHelpMessage(CommandSender sender){
-		console.sendMessage(name);
-		console.sendMessage(version);
-		sender.sendMessage(COMMANDS + NEW_LINE + TOGGLE + NEW_LINE + VERSION_MESSAGE);
+		sender.sendMessage(COMMANDS + NEW_LINE + TOGGLE + NEW_LINE + VERSION_COMMAND);
 	}
 
 	public void sendSyntaxMessage(CommandSender sender) {
 		sender.sendMessage(SYNTAX);
 	}
 
-	public void sendVersionMessage(ConsoleCommandSender sender) {
+	public void sendVersionMessage(CommandSender sender) {
 		sender.sendMessage(VERSION_MESSAGE);
 
 	}
