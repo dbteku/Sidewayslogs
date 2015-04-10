@@ -7,6 +7,7 @@ import manager.ServerManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SideWaysLogs extends JavaPlugin {
@@ -20,16 +21,19 @@ public class SideWaysLogs extends JavaPlugin {
 	private final String VERSION = ChatColor.GREEN + "Version: ";
 	private final String VERSION_NUM = ChatColor.AQUA + pdf.getVersion(); 
 	private ServerManager manager;
+	private PluginManager events;
+	ConsoleCommandSender console;
 	
 	@Override
 	public void onDisable(){
-		this.LOG.info(NAME + " " +  DISABLED);
+		console.sendMessage(NAME + " " +  DISABLED);
 	}
 	
 	@Override
 	public void onEnable(){
-		ConsoleCommandSender console = getServer().getConsoleSender();
-		manager = new ServerManager(VERSION_NUM, NAME, this, console);
+		console = getServer().getConsoleSender();
+		events = getServer().getPluginManager();
+		manager = new ServerManager(VERSION_NUM, NAME, this, console, events);
 		manager.init();
 		getCommand(BASE_CMD).setExecutor(manager);
 		console.sendMessage(NAME + " " + VERSION + VERSION_NUM +  " " + ENABLED);

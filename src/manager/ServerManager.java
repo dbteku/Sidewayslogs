@@ -8,6 +8,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+
+import events.OnBlockPlace;
+import events.OnPlayerJoin;
 
 public class ServerManager implements CommandExecutor{
 
@@ -20,16 +24,18 @@ public class ServerManager implements CommandExecutor{
 	private final String VERSION = "version";
 	private Messenger messenger;
 	private ConsoleCommandSender console;
+	private PluginManager pm;
 
-	public ServerManager(String pluginVersion, String pluginName, SideWaysLogs plugin, ConsoleCommandSender console){
+	public ServerManager(String pluginVersion, String pluginName, SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events){
 		this.PLUGIN_VERSION = pluginVersion;
 		this.PLUGIN_NAME = pluginName;
 		this.plugin = plugin;
 		this.console = console;
+		this.pm = events;
 	}
 
 	public void init(){
-		eventManager  = new EventManager();
+		eventManager  = new EventManager(plugin, pm);
 		eventManager.init();
 		messenger = new Messenger(PLUGIN_NAME, PLUGIN_VERSION, console);
 	}
@@ -41,16 +47,17 @@ public class ServerManager implements CommandExecutor{
 					if(args[0].equalsIgnoreCase(HELP_CMD)){
 						messenger.sendHelpMessage(sender);
 					}
+					if(args[0].equalsIgnoreCase(VERSION)){
+						messenger.sendVersionMessage(sender);
+					}
 				}else{
 					messenger.sendSyntaxMessage(sender);
 				}
-				if(args[0].equalsIgnoreCase(VERSION)){
-					messenger.sendVersionMessage(sender);
-				}
+
 			}
 		}else{
 			if(label.equalsIgnoreCase(BASE_CMD)){
-				messenger.sendVersionMessage(sender);
+				messenger.sendConsoleCommand(sender);
 			}
 		}
 		return false;
