@@ -32,5 +32,4 @@ public class OnBlockPlace implements Listener{
 			});
 		}
 	}
-
 }

@@ -10,9 +10,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
-import events.OnBlockPlace;
-import events.OnPlayerJoin;
-
 public class ServerManager implements CommandExecutor{
 
 	private SideWaysLogs plugin;
@@ -37,7 +34,7 @@ public class ServerManager implements CommandExecutor{
 	public void init(){
 		eventManager  = new EventManager(plugin, pm);
 		eventManager.init();
-		messenger = new Messenger(PLUGIN_NAME, PLUGIN_VERSION, console);
+		messenger = new Messenger(PLUGIN_NAME, PLUGIN_VERSION);
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
