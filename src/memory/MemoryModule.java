@@ -1,25 +1,38 @@
 package memory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import manager.ServerManager;
-import player.PlayerSettings;
 import interfaces.AuthorizedMemoryAccess;
-import io.Input;
-import io.Output;
+import io.PlayerFileLoader;
+import io.PlayerFileWriter;
 
-public class MemoryModule {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-	private Input input;
-	private Output output;
-	private PlayerSettings playerSettings = new PlayerSettings();
+import language.Messenger;
+import manager.ServerManager;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+
+import player.PlayerSettings;
+
+public class MemoryModule implements AuthorizedMemoryAccess{
+
+	private PlayerFileLoader playerInput;
+	private PlayerFileWriter playerOutput;
+	private PlayerSettings playerSettings;
 	private HashMap<String, Boolean> settings;
-	HashMap<String, HashMap<String, Boolean>> localMemory = new HashMap<>();
+	private HashMap<String, HashMap<String, Boolean>> localMemory = new HashMap<>();
+	private ConsoleCommandSender console;
+	private Messenger messenger;
 
-	public MemoryModule(){
-		input = new Input();
-		output = new Output();
+	public MemoryModule(ConsoleCommandSender console, Messenger messenger, PlayerSettings playerSettings){
+		this.console = console;
+		this.messenger = messenger;
+		playerInput = new PlayerFileLoader();
+		playerOutput = new PlayerFileWriter();
 		settings = playerSettings.getSettings();
 	}
 
@@ -29,7 +42,7 @@ public class MemoryModule {
 			localMemory.put(playerName, settings);
 		}
 	}
-	
+
 	public HashMap<String, Boolean> getPlayerSettings(AuthorizedMemoryAccess sender, String playerName){
 
 		HashMap<String, Boolean> playerSettings = null;
@@ -42,16 +55,16 @@ public class MemoryModule {
 
 		return playerSettings;
 	}
-	
+
 	public void loadFromDisk(AuthorizedMemoryAccess sender, String playerName){
 		if(sender instanceof AuthorizedMemoryAccess){
-			HashMap<String, Boolean> loadedFile = input.loadPlayerFile(playerName);
+			HashMap<String, Boolean> loadedFile = playerInput.loadPlayerFile(playerName);
 			if(!loadedFile.isEmpty()){
 				putInMemory(playerName, loadedFile);
 
 			}else{
-				output.createNewFile(playerName, settings);
-				loadedFile = input.loadPlayerFile(playerName);
+				playerOutput.createNewFile(playerName, settings);
+				loadedFile = playerInput.loadPlayerFile(playerName);
 				putInMemory(playerName,loadedFile);
 			}
 		}
@@ -59,17 +72,58 @@ public class MemoryModule {
 
 	public void writeToDisk(AuthorizedMemoryAccess sender, String playerName){
 		if(sender instanceof AuthorizedMemoryAccess){
-			output.update(playerName, localMemory.get(playerName));
+			playerOutput.update(playerName, localMemory.get(playerName));
 			localMemory.remove(playerName);
 		}
 	}
-	
+
 	public void checkDirectory(ServerManager manager){
 		if(manager instanceof ServerManager){
-			boolean b = input.checkDirectory();
+			boolean b = playerInput.checkDirectory();
 			if(!b){
-				output.initDirectory();
+				playerOutput.initDirectory();
 			}
 		}
+	}
+
+	public void toggleVerticalLock(CommandSender sender, String setting){
+		String playerName = sender.getName();
+		HashMap<String,Boolean> settings = new HashMap<>();
+		boolean isLocked = false;
+		settings = localMemory.get(playerName);
+		isLocked = settings.get(setting);
+		isLocked = !isLocked;
+		settings.replace(setting, isLocked);
+		localMemory.replace(playerName, settings);
+	}
+
+	public boolean getVerticalLock(CommandSender sender, String setting){
+		String playerName = sender.getName();
+		HashMap<String,Boolean> settings = new HashMap<>();
+		boolean isLocked = false;
+		settings = localMemory.get(playerName);
+		isLocked = settings.get(setting);
+
+		return isLocked;
+
+	}
+
+	public void checkCurrentPlayers(){
+		List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
+		if(!players.isEmpty()){
+			for(Player p: players){
+				this.loadFromDisk(this, p.getName());
+			}
+		}
+	}
+
+	public void forceSave() {
+
+		Set<String> memory = localMemory.keySet();
+
+		for(String s: memory){
+			writeToDisk(this,s);
+		}
+
 	}
 }

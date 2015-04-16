@@ -3,7 +3,6 @@ package io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,11 +10,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-public class Input {
+public class PlayerFileLoader {
 	
 	private final String FILE_TYPE = ".xml";
 	
-	public Input(){
+	public PlayerFileLoader(){
 		
 	}
 
@@ -25,7 +24,7 @@ public class Input {
 		try{
 			loadedFile = read(playerName);
 		}catch(Exception e){
-			System.err.println("Failed To Read File");
+			// File not found.
 		}
 		finally{
 			return loadedFile;
@@ -36,7 +35,7 @@ public class Input {
 		ArrayList<String> names = new ArrayList<String>();
 		ArrayList<String> values = new ArrayList<String>();
 		XMLInputFactory input = XMLInputFactory.newFactory();
-		XMLStreamReader reader = input.createXMLStreamReader(new FileInputStream("plugins/SWL/" + playerName + FILE_TYPE));
+		XMLStreamReader reader = input.createXMLStreamReader(new FileInputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
 		HashMap<String, Boolean> loadedFile = new HashMap<>();
 		while(reader.hasNext()){
 			int eventType = reader.getEventType();
@@ -55,7 +54,7 @@ public class Input {
 	}
 
 	public boolean checkDirectory() {
-		File file = new File("plugins/SWL");
+		File file = new File("plugins/SWL/Players/");
 		return file.exists() && file.isDirectory();
 	}
 }

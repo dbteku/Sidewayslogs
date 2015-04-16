@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
-public class Output {
+public class PlayerFileWriter {
 
 	private final String VERSION = "1.0";
 	private final String SETTINGS = "Player_Settings";
@@ -53,7 +53,7 @@ public class Output {
 	private void write(String playerName, ArrayList<String> names, ArrayList<Boolean> values) throws Exception{
 
 		XMLOutputFactory output = XMLOutputFactory.newFactory();
-		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/" + playerName + FILE_TYPE));
+		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
 		writer.writeStartDocument(VERSION);
 		writer.writeStartElement(playerName);
 		writer.writeStartElement(SETTINGS);
@@ -71,7 +71,7 @@ public class Output {
 	}
 
 	private void createDirectory(){
-		File directory = new File("plugins/SWL/");
+		File directory = new File("plugins/SWL/Players/");
 		directory.mkdir();
 	}
 
