@@ -1,22 +1,25 @@
 package events;
 
-import org.bukkit.command.CommandSender;
+import interfaces.AuthorizedMemoryAccess;
+import memory.MemoryModule;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 
-public class OnPlayerJoin implements Listener{
+public class OnPlayerJoin implements Listener, AuthorizedMemoryAccess{
 	
-	private CommandSender console;
+	private MemoryModule memory;
 	
-	public OnPlayerJoin(){
+	public OnPlayerJoin(MemoryModule memory){
+		this.memory = memory;
 	}
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
-		//Works
-		//TODO have it load the player file into an object.
+		String playerName = event.getPlayer().getName();
+		memory.loadFromDisk(this, playerName);
 	}
 	
 }

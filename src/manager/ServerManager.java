@@ -2,6 +2,7 @@ package manager;
 
 import language.Messenger;
 import main.SideWaysLogs;
+import memory.MemoryModule;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +23,7 @@ public class ServerManager implements CommandExecutor{
 	private Messenger messenger;
 	private ConsoleCommandSender console;
 	private PluginManager pm;
+	private MemoryModule memory;
 
 	public ServerManager(String pluginVersion, String pluginName, SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events){
 		this.PLUGIN_VERSION = pluginVersion;
@@ -29,12 +31,14 @@ public class ServerManager implements CommandExecutor{
 		this.plugin = plugin;
 		this.console = console;
 		this.pm = events;
+		this.memory = new MemoryModule();
 	}
 
 	public void init(){
-		eventManager  = new EventManager(plugin, pm);
+		eventManager  = new EventManager(plugin, pm, memory);
 		eventManager.init();
 		messenger = new Messenger(PLUGIN_NAME, PLUGIN_VERSION);
+		memory.checkDirectory(this);
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
