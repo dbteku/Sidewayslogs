@@ -54,7 +54,7 @@ public class PlayerFileLoader {
 	}
 
 	public boolean checkDirectory() {
-		File file = new File("plugins/SWL/Players/");
+		File file = new File("plugins/SWL/");
 		return file.exists() && file.isDirectory();
 	}
 }

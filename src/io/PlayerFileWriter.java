@@ -71,8 +71,10 @@ public class PlayerFileWriter {
 	}
 
 	private void createDirectory(){
-		File directory = new File("plugins/SWL/Players/");
-		directory.mkdir();
+		File mainDirectory = new File("plugins/SWL");
+		mainDirectory.mkdir();
+		File playerDirectory = new File("plugins/SWL/Players");
+		playerDirectory.mkdir();
 	}
 
 }
