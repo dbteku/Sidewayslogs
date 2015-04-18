@@ -1,7 +1,5 @@
 package language;
 
-import memory.MemoryModule;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -17,12 +15,15 @@ public class Messenger {
 	private final String VERSION_COMMAND = ChatColor.GRAY + "Show Version: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl version";
 	private final String STATUS_COMMAND = ChatColor.GRAY + "Current Placement: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl status";
 	private final String VERSION_MESSAGE;
+	private final String CONSOLE_STATUS = ChatColor.GRAY + "Certain Player's Status: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl status " + ChatColor.GREEN + "[player]";
 	private final String CONSOLE_MESSAGE = ChatColor.RED + "Sorry Console Commands Are For Players.";
 	private final String SAVING = ChatColor.AQUA + "Saving Player Data!";
 	private final String TOGGLE_LOCK = ChatColor.GRAY + "You are now placing logs vertically.";
 	private final String TOGGLE_NORMAL = ChatColor.GRAY + "You are now placing logs normally.";
 	private final String STATUS_LOCK = ChatColor.GRAY + "You are placing logs vertically.";
 	private final String STATUS_NORMAL = ChatColor.GRAY + "You are placing logs normally.";
+	private final String CONSOLE_STATUS_LOCK = ChatColor.GRAY + "Is placing logs vertically.";
+	private final String CONSOLE_STATUS_NORMAL = ChatColor.GRAY + "Is placing logs normally.";
 	private String name;
 	private String version;
 
@@ -68,4 +69,18 @@ public class Messenger {
 	public void sendNormalStatus(CommandSender sender){
 		sender.sendMessage(SWL + STATUS_NORMAL);
 	}
+	
+	public void sendConsoleNormalStatus(CommandSender sender, String playerName){
+		sender.sendMessage(SWL + ChatColor.GREEN + playerName + SPACE + CONSOLE_STATUS_NORMAL);
+	}
+	
+	public void sendConsoleVerticalStatus(CommandSender sender, String playerName){
+		sender.sendMessage(SWL + ChatColor.GREEN + playerName + SPACE + CONSOLE_STATUS_LOCK);
+	}
+	
+	public void sendConsoleHelpMessage(CommandSender sender){
+		sender.sendMessage(SWL + CONSOLE_STATUS);
+	}
+	
+	
 }

@@ -19,8 +19,8 @@ public class PlayerFileLoader {
 	}
 
 	@SuppressWarnings("finally")
-	public HashMap<String,Boolean> loadPlayerFile(String playerName){
-		HashMap<String, Boolean> loadedFile = new HashMap<>();
+	public HashMap<String, Object> loadPlayerFile(String playerName){
+		HashMap<String, Object> loadedFile = new HashMap<>();
 		try{
 			loadedFile = read(playerName);
 		}catch(Exception e){
@@ -31,12 +31,12 @@ public class PlayerFileLoader {
 		}
 	}
 
-	private HashMap<String, Boolean> read(String playerName) throws FileNotFoundException, XMLStreamException{
+	private HashMap<String, Object> read(String playerName) throws FileNotFoundException, XMLStreamException{
 		ArrayList<String> names = new ArrayList<String>();
 		ArrayList<String> values = new ArrayList<String>();
 		XMLInputFactory input = XMLInputFactory.newFactory();
 		XMLStreamReader reader = input.createXMLStreamReader(new FileInputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
-		HashMap<String, Boolean> loadedFile = new HashMap<>();
+		HashMap<String, Object> loadedFile = new HashMap<>();
 		while(reader.hasNext()){
 			int eventType = reader.getEventType();
 			switch(eventType){

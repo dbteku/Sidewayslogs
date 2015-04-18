@@ -19,24 +19,23 @@ public class PlayerFileWriter {
 		createDirectory();
 	}
 
-	public void createNewFile(String playerName, HashMap<String,Boolean> settings) {
+	public void createNewFile(String playerName, HashMap<String,Object> settings) {
 		encode(playerName,settings);
 	}
 	
-	public void update(String playerName, HashMap<String,Boolean> settings){
+	public void update(String playerName, HashMap<String,Object> settings){
 		encode(playerName,settings);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void encode(String playerName, HashMap<String,Boolean> settings){
+	private void encode(String playerName, HashMap<String,Object> settings){
 
 		ArrayList<String> nameSettings = new ArrayList<String>();
-		ArrayList<Boolean> values = new ArrayList<Boolean>();
+		ArrayList<Object> values = new ArrayList<Object>();
 		Set<String> names = settings.keySet();
 
 		for(String s: names){
 			nameSettings.add(s);
-			values.add(settings.get(s));
+			values.add((Boolean) settings.get(s));
 		}
 
 		try{
@@ -50,7 +49,7 @@ public class PlayerFileWriter {
 		}
 	}
 
-	private void write(String playerName, ArrayList<String> names, ArrayList<Boolean> values) throws Exception{
+	private void write(String playerName, ArrayList<String> names, ArrayList<Object> values) throws Exception{
 
 		XMLOutputFactory output = XMLOutputFactory.newFactory();
 		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
@@ -59,7 +58,7 @@ public class PlayerFileWriter {
 		writer.writeStartElement(SETTINGS);
 		Boolean b = false;
 		for(int x = 0; x < names.size(); x++){
-			b = values.get(x);
+			b = (Boolean) values.get(x);
 			writer.writeAttribute(names.get(x), Boolean.toString(b));
 		}
 
@@ -76,5 +75,4 @@ public class PlayerFileWriter {
 		File playerDirectory = new File("plugins/SWL/Players");
 		playerDirectory.mkdir();
 	}
-
 }

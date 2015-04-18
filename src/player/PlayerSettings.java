@@ -7,13 +7,13 @@ public class PlayerSettings {
 
 	private final String VERTICAL_NAME = "Vertical-Lock";
 	private final boolean VERTICAL_VALUE = false;
-	private HashMap<String,Boolean> settings = new HashMap<>();
+	private HashMap<String, Object> settings = new HashMap<>();
 	
 	public PlayerSettings(){
 		settings.put(VERTICAL_NAME, VERTICAL_VALUE);
 	}
 	
-	public HashMap<String,Boolean> getSettings(){
+	public HashMap<String, Object> getSettings(){
 		return settings;
 	}
 	

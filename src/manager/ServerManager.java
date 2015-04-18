@@ -4,6 +4,7 @@ import language.Messenger;
 import main.SideWaysLogs;
 import memory.MemoryModule;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,6 +48,7 @@ public class ServerManager implements CommandExecutor{
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(sender instanceof Player){
+			String player = sender.getName();
 			if(label.equalsIgnoreCase(BASE_CMD)){
 				if(args.length > 0){
 					if(args[0].equalsIgnoreCase(HELP_CMD)){
@@ -56,8 +58,8 @@ public class ServerManager implements CommandExecutor{
 						messenger.sendVersionMessage(sender);
 					}
 					if(args[0].equalsIgnoreCase(TOGGLE)){
-						memory.toggleVerticalLock(sender, verticalLock);
-						boolean b = getVerticalLock(sender);
+						memory.toggleVerticalLock(player, verticalLock);
+						boolean b = getVerticalLock(player);
 						if(b){
 							messenger.sendVerticalLock(sender);
 						}else{
@@ -65,34 +67,49 @@ public class ServerManager implements CommandExecutor{
 						}
 					}
 					if(args[0].equalsIgnoreCase(STATUS)){
-						boolean b = getVerticalLock(sender);
+						boolean b = getVerticalLock(player);
 						if(b){
 							messenger.sendVerticalStatus(sender);
 						}else{
 							messenger.sendNormalStatus(sender);
 						}
 					}
-				
 				}else{
 					messenger.sendSyntaxMessage(sender);
 				}
-
 			}
 		}else{
 			if(label.equalsIgnoreCase(BASE_CMD)){
-				messenger.sendConsoleMessage(sender);
-//				if(args.length > 0){
-//					if(args[0].equalsIgnoreCase("")){
-//						
-//					}
-//				}
+				//messenger.sendConsoleMessage(sender);
+				if(args.length > 0){
+					if(args[0].equalsIgnoreCase("status")){
+						if(args.length > 1){
+							if(!args[1].isEmpty()){
+								try{
+									boolean b = memory.getVerticalLock(args[1], verticalLock);
+									if(b){
+										messenger.sendConsoleVerticalStatus(sender, args[1]);
+									}else{
+										messenger.sendConsoleNormalStatus(sender, args[1]);
+									}
+								}catch(Exception e){
+									console.sendMessage(ChatColor.RED + "Player doesn't exist or hasn't joined the server!");
+								}
+							}
+						}else{
+							messenger.sendConsoleHelpMessage(sender);
+						}
+					}
+				}else{
+					messenger.sendConsoleHelpMessage(sender);
+				}
 			}
 		}
 		return false;
 	}
 
-	public boolean getVerticalLock(CommandSender sender){
-		return memory.getVerticalLock(sender, verticalLock);
+	public boolean getVerticalLock(String player){
+		return memory.getVerticalLock(player, verticalLock);
 	}
 
 }

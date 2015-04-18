@@ -51,13 +51,13 @@ public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 	private boolean isVerticalLocked(String playerName){
 
 		boolean isLocked = false;
-		HashMap<String,Boolean> settings = new HashMap<>();
+		HashMap<String, Object> settings = new HashMap<>();
 
 		Set<String> keys = playerSettings.getKeys();
 
 		if(keys.contains(verticalLock)){
 			settings = memory.getPlayerSettings(this, playerName);
-			isLocked = settings.get(verticalLock);
+			isLocked = (boolean) settings.get(verticalLock);
 		}
 
 		return isLocked;
