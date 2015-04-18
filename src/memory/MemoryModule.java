@@ -99,7 +99,6 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		settings = localMemory.get(playerName);
 		isLocked = (boolean) settings.get(setting);
 		isLocked = !isLocked;
-		System.out.println("IS LOCKED " + isLocked);
 		settings.replace(setting, isLocked);
 		localMemory.replace(playerName, settings);
 	}
