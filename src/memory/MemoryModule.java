@@ -46,7 +46,7 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 
 	public HashMap<String, Object> getPlayerSettings(AuthorizedMemoryAccess sender, String playerName){
 
-		HashMap<String, Object> playerSettings = null;
+		HashMap<String, Object> playerSettings = new HashMap<>();
 
 		if(sender instanceof AuthorizedMemoryAccess){
 			playerSettings = localMemory.get(playerName);
@@ -93,17 +93,18 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		}
 	}
 
-	public void toggleVerticalLock(String playerName, String setting){
+	public void toggleSetting(String playerName, String setting){
 		HashMap<String, Object> settings = new HashMap<>();
 		boolean isLocked = false;
 		settings = localMemory.get(playerName);
 		isLocked = (boolean) settings.get(setting);
 		isLocked = !isLocked;
+		System.out.println("IS LOCKED " + isLocked);
 		settings.replace(setting, isLocked);
 		localMemory.replace(playerName, settings);
 	}
 
-	public boolean getVerticalLock(String playerName, String setting){
+	public boolean getSetting(String playerName, String setting){
 		HashMap<String, Object> settings = new HashMap<>();
 		boolean isLocked = false;
 		if(localMemory.containsKey(playerName)){
@@ -163,6 +164,5 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		for(String s: memory){
 			writeToDisk(this,s);
 		}
-
 	}
 }
