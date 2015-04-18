@@ -58,7 +58,7 @@ public class ServerManager implements CommandExecutor{
 						messenger.sendVersionMessage(sender);
 					}
 					if(args[0].equalsIgnoreCase(TOGGLE)){
-						memory.toggleVerticalLock(player, verticalLock);
+						memory.toggleSetting(player, verticalLock);
 						boolean b = getVerticalLock(player);
 						if(b){
 							messenger.sendVerticalLock(sender);
@@ -86,7 +86,7 @@ public class ServerManager implements CommandExecutor{
 						if(args.length > 1){
 							if(!args[1].isEmpty()){
 								try{
-									boolean b = memory.getVerticalLock(args[1], verticalLock);
+									boolean b = memory.getSetting(args[1], verticalLock);
 									if(b){
 										messenger.sendConsoleVerticalStatus(sender, args[1]);
 									}else{
@@ -109,7 +109,7 @@ public class ServerManager implements CommandExecutor{
 	}
 
 	public boolean getVerticalLock(String player){
-		return memory.getVerticalLock(player, verticalLock);
+		return memory.getSetting(player, verticalLock);
 	}
 
 }

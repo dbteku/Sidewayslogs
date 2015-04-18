@@ -33,7 +33,7 @@ public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event){	
 		final Block block = event.getBlockPlaced();
-		String playerName = event.getPlayer().getDisplayName();
+		String playerName = event.getPlayer().getName();
 		if(isVerticalLocked(playerName)){
 			if ((block.getType() == Material.LOG)  || (block.getType() == Material.LOG_2)) {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
@@ -50,15 +50,7 @@ public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 
 	private boolean isVerticalLocked(String playerName){
 
-		boolean isLocked = false;
-		HashMap<String, Object> settings = new HashMap<>();
-
-		Set<String> keys = playerSettings.getKeys();
-
-		if(keys.contains(verticalLock)){
-			settings = memory.getPlayerSettings(this, playerName);
-			isLocked = (boolean) settings.get(verticalLock);
-		}
+		boolean isLocked = memory.getSetting(playerName, verticalLock);
 
 		return isLocked;
 	}
