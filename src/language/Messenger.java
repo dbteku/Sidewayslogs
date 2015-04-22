@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 public class Messenger {
 
 	private final String SWL = ChatColor.GREEN + "[" + ChatColor.AQUA + "SWL" + ChatColor.GREEN + "] ";
+	private final String ENABLED = ChatColor.GREEN + "Has Been Enabled!";
+	private final String DISABLED = ChatColor.RED + "Has Been Disabled!";
 	private final String SYNTAX = ChatColor.RED +  "Syntax: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl help";
 	private final String SPACE = " ";
 	private final String COMMANDS = ChatColor.GRAY + "Commands:";
@@ -32,6 +34,14 @@ public class Messenger {
 		this.version = pluginVersion;
 		VERSION_MESSAGE = ChatColor.GRAY + "Version:" + SPACE + version;
 		NAME = name;
+	}
+	
+	public void sendEnableMessage(CommandSender sender){
+		sender.sendMessage(SWL + NAME + SPACE + version + SPACE + ENABLED);
+	}
+	
+	public void sendDisableMessage(CommandSender sender){
+		sender.sendMessage(SWL + NAME + SPACE + version + SPACE + DISABLED);
 	}
 
 	public void sendHelpMessage(CommandSender sender){

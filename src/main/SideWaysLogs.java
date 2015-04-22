@@ -1,18 +1,13 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.logging.Logger;
 
 import language.Messenger;
 import manager.ServerManager;
 import memory.MemoryModule;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +35,7 @@ public class SideWaysLogs extends JavaPlugin {
 	public void onDisable(){
 		memory.forceSave();
 		messenger.sendSavingMessage(console);
-		console.sendMessage(NAME + " " +  DISABLED);
+		messenger.sendDisableMessage(console);
 	}
 	
 	@Override
@@ -51,8 +46,8 @@ public class SideWaysLogs extends JavaPlugin {
 		memory = new MemoryModule(console, messenger, playerSettings);
 		manager = new ServerManager(this, console, events, messenger, memory, playerSettings);
 		manager.init();
+		messenger.sendEnableMessage(console);
 		getCommand(BASE_CMD).setExecutor(manager);
-		console.sendMessage(NAME + " " + VERSION + VERSION_NUM +  " " + ENABLED);
 		checkOnlinePlayers();
 	}
 	

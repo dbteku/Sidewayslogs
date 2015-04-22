@@ -1,6 +1,6 @@
 name: SideWaysLogs
 main: main.SideWaysLogs
-version: 2.1.3
+version: 2.1.3a
 description: >
              Lock orientation of placement of logs.
 commands:
