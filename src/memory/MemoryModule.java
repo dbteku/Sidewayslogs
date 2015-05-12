@@ -6,6 +6,7 @@ import io.PlayerFileWriter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -79,7 +80,7 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		if(sender instanceof AuthorizedMemoryAccess){
 			playerOutput.update(playerName, localMemory.get(playerName));
 			if(!playerIsOnline(playerName)){
-				localMemory.remove(playerName);
+				localMemory.remove(playerName); 
 			}
 		}
 	}
@@ -123,17 +124,15 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 
 	private void memoryCleanup() {
 
-		Set<String> keys = localMemory.keySet();
+		Iterator<String> keys = localMemory.keySet().iterator();
 		List<Player> playersEntity = (List<Player>) Bukkit.getOnlinePlayers();
 		List<String> players = new ArrayList<String>();
 		for(Player p: playersEntity){
 			players.add(p.getName());
 		}
 		if(!localMemory.isEmpty()){
-			for(String s: keys){
-				if(!players.contains(s)){
-					localMemory.remove(s);
-				}
+			while(keys.hasNext()){
+				localMemory.remove(keys.next());
 			}
 		}
 	}
@@ -158,10 +157,9 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 
 	public void forceSave() {
 
-		Set<String> memory = localMemory.keySet();
-
-		for(String s: memory){
-			writeToDisk(this,s);
+		Iterator<String> memory = localMemory.keySet().iterator();
+		while(memory.hasNext()){
+			writeToDisk(this,memory.next());
 		}
 	}
 }
