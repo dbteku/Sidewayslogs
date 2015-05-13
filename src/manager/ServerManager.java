@@ -23,6 +23,7 @@ public class ServerManager implements CommandExecutor{
 	private final String VERSION = "version";
 	private final String TOGGLE = "toggle";
 	private final String STATUS = "status";
+	private final String PLAYER_EXIST = ChatColor.RED + "Player doesn't exist or hasn't joined the server!";
 	private Messenger messenger;
 	private ConsoleCommandSender console;
 	private PluginManager pm;
@@ -93,12 +94,18 @@ public class ServerManager implements CommandExecutor{
 										messenger.sendConsoleNormalStatus(sender, args[1]);
 									}
 								}catch(Exception e){
-									console.sendMessage(ChatColor.RED + "Player doesn't exist or hasn't joined the server!");
+									console.sendMessage(PLAYER_EXIST);
 								}
 							}
 						}else{
 							messenger.sendConsoleHelpMessage(sender);
 						}
+					}
+//					if(args[0].equalsIgnoreCase("memory")){
+//						memory.logMemory();
+//					}
+					if(args[0].equalsIgnoreCase(VERSION)){
+						messenger.sendVersionMessage(sender);
 					}
 				}else{
 					messenger.sendConsoleHelpMessage(sender);

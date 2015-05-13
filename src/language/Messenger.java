@@ -17,7 +17,8 @@ public class Messenger {
 	private final String VERSION_COMMAND = ChatColor.GRAY + "Show Version: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl version";
 	private final String STATUS_COMMAND = ChatColor.GRAY + "Current Placement: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl status";
 	private final String VERSION_MESSAGE;
-	private final String CONSOLE_STATUS = ChatColor.GRAY + "Certain Player's Status: " + ChatColor.GREEN + "/" + ChatColor.AQUA + "swl status " + ChatColor.GREEN + "[player]";
+	private final String CONSOLE_STATUS = ChatColor.GRAY + "Certain Player's Status: " + ChatColor.AQUA + "swl status " + ChatColor.GREEN + "[player]";
+	private final String CONSOLE_VERSION = ChatColor.GRAY + "Sideways Log Version: " + ChatColor.AQUA + "swl version";
 	private final String CONSOLE_MESSAGE = ChatColor.RED + "Sorry Console Commands Are For Players.";
 	private final String SAVING = ChatColor.AQUA + "Saving Player Data!";
 	private final String TOGGLE_LOCK = ChatColor.GRAY + "You are now placing logs vertically.";
@@ -89,7 +90,7 @@ public class Messenger {
 	}
 	
 	public void sendConsoleHelpMessage(CommandSender sender){
-		sender.sendMessage(SWL + CONSOLE_STATUS);
+		sender.sendMessage(NEW_LINE + SWL + CONSOLE_STATUS + NEW_LINE + SWL + CONSOLE_VERSION);
 	}
 	
 	

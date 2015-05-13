@@ -3,8 +3,6 @@ package events;
 import interfaces.AuthorizedMemoryAccess;
 import memory.MemoryModule;
 
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -20,6 +18,8 @@ public class OnPlayerLeave implements Listener,AuthorizedMemoryAccess{
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 	    String playerName = event.getPlayer().getName();
+	    System.out.println("player: " + playerName);
 	    memory.writeToDisk(this, playerName);
 	}
+	
 }

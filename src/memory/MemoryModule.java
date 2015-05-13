@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import events.OnPlayerLeave;
 import player.PlayerSettings;
 
 public class MemoryModule implements AuthorizedMemoryAccess{
@@ -78,9 +79,12 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 
 	public void writeToDisk(AuthorizedMemoryAccess sender, String playerName){
 		if(sender instanceof AuthorizedMemoryAccess){
-			playerOutput.update(playerName, localMemory.get(playerName));
-			if(!playerIsOnline(playerName)){
-				localMemory.remove(playerName); 
+			if(localMemory.containsKey(playerName)){
+				System.out.println("CONTAINS");
+				playerOutput.update(playerName, localMemory.get(playerName));
+			}
+			if(sender instanceof OnPlayerLeave){
+				localMemory.remove(playerName);
 			}
 		}
 	}
@@ -155,11 +159,24 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		return players.contains(playerName);
 	}
 
+//	public void logMemory(){
+//		Set<String> memory = localMemory.keySet();
+//		if(memory.isEmpty()){
+//			System.out.println("EMPTY");
+//		}
+//		for(String s : memory){
+//			System.out.println(s);
+//		}
+//	}
+
 	public void forceSave() {
 
 		Iterator<String> memory = localMemory.keySet().iterator();
+		String s = "";
 		while(memory.hasNext()){
-			writeToDisk(this,memory.next());
+			s = memory.next();
+			memory.remove();
+			writeToDisk(this,s);
 		}
 	}
 }
