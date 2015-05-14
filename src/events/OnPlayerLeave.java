@@ -1,7 +1,7 @@
 package events;
 
 import interfaces.AuthorizedMemoryAccess;
-import memory.MemoryModule;
+import memory.PlayerMemory;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class OnPlayerLeave implements Listener,AuthorizedMemoryAccess{
 
-	private MemoryModule memory;
+	private PlayerMemory memory;
 	
-	public OnPlayerLeave(MemoryModule memory){
+	public OnPlayerLeave(PlayerMemory memory){
 		this.memory = memory;
 	}
 	

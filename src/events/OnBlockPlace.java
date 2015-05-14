@@ -5,7 +5,7 @@ import java.util.Set;
 
 import interfaces.AuthorizedMemoryAccess;
 import main.SideWaysLogs;
-import memory.MemoryModule;
+import memory.PlayerMemory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,11 +19,11 @@ import player.PlayerSettings;
 public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 
 	private SideWaysLogs plugin;
-	private MemoryModule memory;
+	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
 	private String verticalLock;
 
-	public OnBlockPlace(SideWaysLogs plugin, MemoryModule memory, PlayerSettings playerSettings){
+	public OnBlockPlace(SideWaysLogs plugin, PlayerMemory memory, PlayerSettings playerSettings){
 		this.memory = memory;
 		this.plugin = plugin;
 		this.playerSettings = playerSettings;

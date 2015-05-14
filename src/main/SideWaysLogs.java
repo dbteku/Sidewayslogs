@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import language.Messenger;
 import manager.ServerManager;
-import memory.MemoryModule;
+import memory.PlayerMemory;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -28,7 +28,7 @@ public class SideWaysLogs extends JavaPlugin {
 	private PluginManager events;
 	private Messenger messenger;
 	private ConsoleCommandSender console;
-	private MemoryModule memory;
+	private PlayerMemory memory;
 	private PlayerSettings playerSettings = new PlayerSettings();
 	
 	@Override
@@ -43,7 +43,7 @@ public class SideWaysLogs extends JavaPlugin {
 		console = getServer().getConsoleSender();
 		events = getServer().getPluginManager();
 		messenger = new Messenger(NAME, VERSION_NUM);
-		memory = new MemoryModule(console, messenger, playerSettings);
+		memory = new PlayerMemory(console, messenger, playerSettings);
 		manager = new ServerManager(this, console, events, messenger, memory, playerSettings);
 		manager.init();
 		messenger.sendEnableMessage(console);

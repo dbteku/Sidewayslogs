@@ -1,8 +1,10 @@
 package manager;
 
+import interfaces.AuthorizedMemoryAccess;
 import language.Messenger;
 import main.SideWaysLogs;
-import memory.MemoryModule;
+import memory.PlayerMemory;
+import memory.ServerMemory;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,8 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
 import player.PlayerSettings;
+import server.ServerSettings;
 
-public class ServerManager implements CommandExecutor{
+public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 
 	private SideWaysLogs plugin;
 	private EventManager eventManager;
@@ -27,11 +30,13 @@ public class ServerManager implements CommandExecutor{
 	private Messenger messenger;
 	private ConsoleCommandSender console;
 	private PluginManager pm;
-	private MemoryModule memory;
+	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
+	private ServerSettings serverSettings;
 	private String verticalLock;
+	private ServerMemory serverMemory;
 
-	public ServerManager(SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events, Messenger messenger, MemoryModule memory, PlayerSettings playerSettings){
+	public ServerManager(SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events, Messenger messenger, PlayerMemory memory, PlayerSettings playerSettings){
 		this.plugin = plugin;
 		this.console = console;
 		this.pm = events;
@@ -39,6 +44,8 @@ public class ServerManager implements CommandExecutor{
 		this.memory = memory;
 		this.playerSettings = playerSettings;
 		verticalLock = playerSettings.getVerticalNameSetting();
+		serverMemory = new ServerMemory(console, messenger, serverSettings);
+		//serverMemory.loadFromDisk(this);
 	}
 
 	public void init(){
@@ -101,9 +108,9 @@ public class ServerManager implements CommandExecutor{
 							messenger.sendConsoleHelpMessage(sender);
 						}
 					}
-//					if(args[0].equalsIgnoreCase("memory")){
-//						memory.logMemory();
-//					}
+					if(args[0].equalsIgnoreCase("memory")){
+						//serverMemory.logMemory();
+					}
 					if(args[0].equalsIgnoreCase(VERSION)){
 						messenger.sendVersionMessage(sender);
 					}

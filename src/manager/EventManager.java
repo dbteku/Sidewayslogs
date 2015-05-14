@@ -7,7 +7,7 @@ import org.bukkit.plugin.PluginManager;
 
 import player.PlayerSettings;
 import main.SideWaysLogs;
-import memory.MemoryModule;
+import memory.PlayerMemory;
 import events.OnBlockPlace;
 import events.OnPlayerJoin;
 import events.OnPlayerLeave;
@@ -20,10 +20,10 @@ public class EventManager {
 	private OnPlayerJoin onPlayerJoin;
 	private OnPlayerLeave onPlayerLeave;
 	private ArrayList<Listener> events = new ArrayList<Listener>();
-	private MemoryModule memory;
+	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
 	
-	public EventManager(SideWaysLogs plugin, PluginManager pm, MemoryModule memory, PlayerSettings playerSettings){
+	public EventManager(SideWaysLogs plugin, PluginManager pm, PlayerMemory memory, PlayerSettings playerSettings){
 		this.memory = memory;
 		this.plugin = plugin;
 		this.pm = pm;

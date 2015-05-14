@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 import events.OnPlayerLeave;
 import player.PlayerSettings;
 
-public class MemoryModule implements AuthorizedMemoryAccess{
+public class PlayerMemory implements AuthorizedMemoryAccess{
 
 	private PlayerFileLoader playerInput;
 	private PlayerFileWriter playerOutput;
@@ -32,7 +32,7 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 	private ConsoleCommandSender console;
 	private Messenger messenger;
 
-	public MemoryModule(ConsoleCommandSender console, Messenger messenger, PlayerSettings playerSettings){
+	public PlayerMemory(ConsoleCommandSender console, Messenger messenger, PlayerSettings playerSettings){
 		this.console = console;
 		this.messenger = messenger;
 		playerInput = new PlayerFileLoader();
@@ -55,7 +55,6 @@ public class MemoryModule implements AuthorizedMemoryAccess{
 		}else{
 			// UnAuthorized sender.
 		}
-
 		return playerSettings;
 	}
 
