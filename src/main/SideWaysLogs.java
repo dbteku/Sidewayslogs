@@ -33,7 +33,7 @@ public class SideWaysLogs extends JavaPlugin {
 	
 	@Override
 	public void onDisable(){
-		memory.forceSave();
+		memory.forceSaveAndRemovePlayer();
 		messenger.sendSavingMessage(console);
 		messenger.sendDisableMessage(console);
 	}

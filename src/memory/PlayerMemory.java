@@ -31,6 +31,7 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 	private HashMap<String, HashMap<String, Object>> localMemory = new HashMap<>();
 	private ConsoleCommandSender console;
 	private Messenger messenger;
+	private AutoSaver autoSaver;
 
 	public PlayerMemory(ConsoleCommandSender console, Messenger messenger, PlayerSettings playerSettings){
 		this.console = console;
@@ -38,6 +39,8 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 		playerInput = new PlayerFileLoader();
 		playerOutput = new PlayerFileWriter();
 		settings = playerSettings.getSettings();
+		autoSaver = new AutoSaver(1, this);
+		autoSaver.start();
 	}
 
 	private void putInMemory(String playerName, HashMap<String, Object> settings){
@@ -79,7 +82,6 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 	public void writeToDisk(AuthorizedMemoryAccess sender, String playerName){
 		if(sender instanceof AuthorizedMemoryAccess){
 			if(localMemory.containsKey(playerName)){
-				System.out.println("CONTAINS");
 				playerOutput.update(playerName, localMemory.get(playerName));
 			}
 			if(sender instanceof OnPlayerLeave){
@@ -158,18 +160,26 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 		return players.contains(playerName);
 	}
 
-//	public void logMemory(){
-//		Set<String> memory = localMemory.keySet();
-//		if(memory.isEmpty()){
-//			System.out.println("EMPTY");
-//		}
-//		for(String s : memory){
-//			System.out.println(s);
-//		}
-//	}
-
-	public void forceSave() {
-
+	public void logMemory(){
+		Set<String> memory = localMemory.keySet();
+		if(memory.isEmpty()){
+			System.out.println("EMPTY");
+		}
+		for(String s : memory){
+			System.out.println(s);
+		}
+	}
+	
+	public void forceSave(){
+		Iterator<String> memory = localMemory.keySet().iterator();
+		String s = "";
+		while(memory.hasNext()){
+			s = memory.next();
+			writeToDisk(this,s);
+		}
+	}
+	
+	public void forceSaveAndRemovePlayer() {
 		Iterator<String> memory = localMemory.keySet().iterator();
 		String s = "";
 		while(memory.hasNext()){
