@@ -1,25 +1,20 @@
 package memory;
 
-import interfaces.AuthorizedMemoryAccess;
-import io.PlayerFileLoader;
-import io.PlayerFileWriter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import language.Messenger;
-import manager.ServerManager;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import events.OnPlayerLeave;
+import interfaces.AuthorizedMemoryAccess;
+import io.PlayerFileLoader;
+import io.PlayerFileWriter;
+import language.Messenger;
+import manager.ServerManager;
 import player.PlayerSettings;
 
 public class PlayerMemory implements AuthorizedMemoryAccess{
@@ -160,15 +155,15 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 		return players.contains(playerName);
 	}
 
-	public void logMemory(){
-		Set<String> memory = localMemory.keySet();
-		if(memory.isEmpty()){
-			System.out.println("EMPTY");
-		}
-		for(String s : memory){
-			System.out.println(s);
-		}
-	}
+//	public void logMemory(){
+//		Set<String> memory = localMemory.keySet();
+//		if(memory.isEmpty()){
+//			System.out.println("EMPTY");
+//		}
+//		for(String s : memory){
+//			System.out.println(s);
+//		}
+//	}
 	
 	public void forceSave(){
 		Iterator<String> memory = localMemory.keySet().iterator();

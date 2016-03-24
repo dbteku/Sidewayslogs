@@ -1,32 +1,26 @@
 package io;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.json.simple.JSONObject;
-
-import server.ServerSettings;
-
 public class ServerWriter {
 
-	public ServerWriter(){
+	public void writeSettings(String settings) throws IOException{
+		File file = new File("plugins/SWL/config.json");
+		if(!file.exists()){
+			file.createNewFile();
+		}
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(settings);
+		bw.close();
 		
 	}
 
-	@SuppressWarnings("unchecked")
-	public void createNewFile(String playerName, ServerSettings settings) {
-		
-		JSONObject serverSettings = new JSONObject();
-		serverSettings.put(playerName, settings);
-		FileWriter file;
-		try {
-			file = new FileWriter("plugins\\SWL\\Settings.json");
-			file.write(serverSettings.toJSONString());
-			file.flush();
-			file.close();
-		} catch (IOException e) {
-			System.err.println("Failed to write server settings.");
-		}
-		
+	public void createDirectory(){
+		File mainDirectory = new File("plugins/SWL");
+		mainDirectory.mkdir();
 	}
 }

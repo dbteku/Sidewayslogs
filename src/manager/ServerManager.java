@@ -1,11 +1,5 @@
 package manager;
 
-import interfaces.AuthorizedMemoryAccess;
-import language.Messenger;
-import main.SideWaysLogs;
-import memory.PlayerMemory;
-import memory.ServerMemory;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,10 +8,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
+import language.Messenger;
+import main.SideWaysLogs;
+import memory.PlayerMemory;
+import memory.ServerMemory;
 import player.PlayerSettings;
 import server.ServerSettings;
 
-public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
+public class ServerManager implements CommandExecutor{
 
 	private SideWaysLogs plugin;
 	private EventManager eventManager;
@@ -32,7 +30,6 @@ public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 	private PluginManager pm;
 	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
-	private ServerSettings serverSettings;
 	private String verticalLock;
 	private ServerMemory serverMemory;
 
@@ -44,8 +41,8 @@ public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 		this.memory = memory;
 		this.playerSettings = playerSettings;
 		verticalLock = playerSettings.getVerticalNameSetting();
-		serverMemory = new ServerMemory(console, messenger, serverSettings);
-		//serverMemory.loadFromDisk(this);
+		serverMemory = new ServerMemory(console, messenger);
+		serverMemory.loadSettings();
 	}
 
 	public void init(){
@@ -96,7 +93,6 @@ public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 			}
 		}else{
 			if(label.equalsIgnoreCase(BASE_CMD)){
-				//messenger.sendConsoleMessage(sender);
 				if(args.length > 0){
 					if(args[0].equalsIgnoreCase("status")){
 						if(args.length > 1){

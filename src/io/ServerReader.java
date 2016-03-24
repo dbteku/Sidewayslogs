@@ -1,51 +1,42 @@
 package io;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import server.ServerSettings;
+import java.io.IOException;
 
 public class ServerReader {
-	
-	ServerSettings setting;
-	
-	public ServerReader(ServerSettings setting){
-		this.setting = setting;
-	}
 
-	private JSONParser parser = new JSONParser();
 	
-	public HashMap<String, Boolean> loadPlayerFile(String playerName) {
-		HashMap<String, Boolean> file = new HashMap<>();
-		JSONObject serverSettings = null;
-		try {
-			serverSettings = (JSONObject) parser.parse(new FileReader("plugins\\SWL\\Settings.json"));
-		} catch (Exception e) {
-		}
+	public String getConfig()throws IOException{
 		
-		file = encodeAndReturn(serverSettings);
+		String json = "";
 		
-		return file;
-	}
-	
-	private HashMap<String,Boolean> encodeAndReturn(JSONObject settings){
-		HashMap<String, Boolean> file = new HashMap<>();
-		JSONObject o = null;
-		if(settings != null){
-			Iterator<String> values = setting.getKeys().iterator();
-			String name ="";
-			while(values.hasNext()){
-				name = values.next();
-				o.get(name);
-				file.put(name, true);
+		File file = new File("plugins/SWL/config.json");
+		if(file.exists()){
+			StringBuilder builder = new StringBuilder();
+			FileReader fr = new FileReader(file);
+			BufferedReader reader = new BufferedReader(fr);
+			String line = "";
+			while((line = reader.readLine()) != null){
+				builder.append(line);
 			}
+			json = builder.toString();
 		}
 		
-		return file;
+		return json;
+	}
+	
+	public boolean configExists(){
+		File file = new File("plugins/SWL/config.json");
+		boolean exists = file.exists();
+		return exists;
+	}
+	
+	public boolean directoryExists() {
+		File file = new File("plugins/SWL/");
+		return file.exists() && file.isDirectory();
 	}
 
+	
 }

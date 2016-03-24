@@ -2,7 +2,7 @@ name: SideWaysLogs
 main: main.SideWaysLogs
 version: 2.1.3e
 description: >
-             Lock orientation of placement of logs.
+             Locking vertical orientation when placing logs.
 commands:
   swl:
     description: Basic Command For SideWaysLogs.

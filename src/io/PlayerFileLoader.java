@@ -35,7 +35,7 @@ public class PlayerFileLoader {
 		ArrayList<String> names = new ArrayList<String>();
 		ArrayList<String> values = new ArrayList<String>();
 		XMLInputFactory input = XMLInputFactory.newFactory();
-		XMLStreamReader reader = input.createXMLStreamReader(new FileInputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
+		XMLStreamReader reader = input.createXMLStreamReader(new FileInputStream("plugins/SWL/players/" + playerName + FILE_TYPE));
 		HashMap<String, Object> loadedFile = new HashMap<>();
 		while(reader.hasNext()){
 			int eventType = reader.getEventType();

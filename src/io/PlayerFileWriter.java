@@ -52,7 +52,7 @@ public class PlayerFileWriter {
 	private void write(String playerName, ArrayList<String> names, ArrayList<Object> values) throws Exception{
 
 		XMLOutputFactory output = XMLOutputFactory.newFactory();
-		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/Players/" + playerName + FILE_TYPE));
+		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/players/" + playerName + FILE_TYPE));
 		writer.writeStartDocument(VERSION);
 		writer.writeStartElement(playerName);
 		writer.writeStartElement(SETTINGS);
@@ -72,7 +72,7 @@ public class PlayerFileWriter {
 	private void createDirectory(){
 		File mainDirectory = new File("plugins/SWL");
 		mainDirectory.mkdir();
-		File playerDirectory = new File("plugins/SWL/Players");
+		File playerDirectory = new File("plugins/SWL/players");
 		playerDirectory.mkdir();
 	}
 }
