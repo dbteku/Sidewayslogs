@@ -11,9 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import language.Messenger;
 import main.SideWaysLogs;
 import memory.PlayerMemory;
-import memory.ServerMemory;
 import player.PlayerSettings;
-import server.ServerSettings;
 
 public class ServerManager implements CommandExecutor{
 
@@ -31,7 +29,6 @@ public class ServerManager implements CommandExecutor{
 	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
 	private String verticalLock;
-	private ServerMemory serverMemory;
 
 	public ServerManager(SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events, Messenger messenger, PlayerMemory memory, PlayerSettings playerSettings){
 		this.plugin = plugin;
@@ -41,8 +38,6 @@ public class ServerManager implements CommandExecutor{
 		this.memory = memory;
 		this.playerSettings = playerSettings;
 		verticalLock = playerSettings.getVerticalNameSetting();
-		serverMemory = new ServerMemory(console, messenger);
-		serverMemory.loadSettings();
 	}
 
 	public void init(){

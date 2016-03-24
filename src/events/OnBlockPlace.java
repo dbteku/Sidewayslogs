@@ -1,12 +1,5 @@
 package events;
 
-import java.util.HashMap;
-import java.util.Set;
-
-import interfaces.AuthorizedMemoryAccess;
-import main.SideWaysLogs;
-import memory.PlayerMemory;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,6 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import interfaces.AuthorizedMemoryAccess;
+import main.SideWaysLogs;
+import memory.PlayerMemory;
 import player.PlayerSettings;
 
 public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
@@ -36,18 +32,22 @@ public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 		String playerName = event.getPlayer().getName();
 		if(isVerticalLocked(playerName)){
 			if ((block.getType() == Material.LOG)  || (block.getType() == Material.LOG_2)) {
-				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
-				{
-					@SuppressWarnings("deprecation")
-					public void run()
-					{
-						block.setData((byte)(block.getData() % 4));
-					}
-				});
+				flipBlock(block);
 			}
 		}
 	}
 
+	private void flipBlock(Block block){
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+		{
+			@SuppressWarnings("deprecation")
+			public void run()
+			{
+				block.setData((byte)(block.getData() % 4));
+			}
+		});
+	}
+	
 	private boolean isVerticalLocked(String playerName){
 
 		boolean isLocked = memory.getSetting(playerName, verticalLock);
