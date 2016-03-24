@@ -62,10 +62,10 @@ public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 					if(args[0].equalsIgnoreCase(HELP_CMD)){
 						messenger.sendHelpMessage(sender);
 					}
-					if(args[0].equalsIgnoreCase(VERSION)){
+					else if(args[0].equalsIgnoreCase(VERSION)){
 						messenger.sendVersionMessage(sender);
 					}
-					if(args[0].equalsIgnoreCase(TOGGLE)){
+					else if(args[0].equalsIgnoreCase(TOGGLE)){
 						memory.toggleSetting(player, verticalLock);
 						boolean b = getVerticalLock(player);
 						if(b){
@@ -74,16 +74,24 @@ public class ServerManager implements CommandExecutor, AuthorizedMemoryAccess{
 							messenger.sendNormalPlacement(sender);
 						}
 					}
-					if(args[0].equalsIgnoreCase(STATUS)){
+					else if(args[0].equalsIgnoreCase(STATUS)){
 						boolean b = getVerticalLock(player);
 						if(b){
 							messenger.sendVerticalStatus(sender);
 						}else{
 							messenger.sendNormalStatus(sender);
 						}
+					}else{
+						messenger.sendSyntaxMessage(sender);
 					}
 				}else{
-					messenger.sendSyntaxMessage(sender);
+					memory.toggleSetting(player, verticalLock);
+					boolean b = getVerticalLock(player);
+					if(b){
+						messenger.sendVerticalLock(sender);
+					}else{
+						messenger.sendNormalPlacement(sender);
+					}
 				}
 			}
 		}else{
