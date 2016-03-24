@@ -48,35 +48,54 @@ public class ServerManager implements CommandExecutor{
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(sender instanceof Player){
-			String player = sender.getName();
-			if(label.equalsIgnoreCase(BASE_CMD)){
-				if(args.length > 0){
-					if(args[0].equalsIgnoreCase(HELP_CMD)){
-						messenger.sendHelpMessage(sender);
-					}
-					else if(args[0].equalsIgnoreCase(VERSION)){
-						messenger.sendVersionMessage(sender);
-					}
-					else if(args[0].equalsIgnoreCase(TOGGLE)){
-						memory.toggleSetting(player, verticalLock);
-						boolean b = getVerticalLock(player);
-						if(b){
-							messenger.sendVerticalLock(sender);
-						}else{
-							messenger.sendNormalPlacement(sender);
-						}
-					}
-					else if(args[0].equalsIgnoreCase(STATUS)){
-						boolean b = getVerticalLock(player);
-						if(b){
-							messenger.sendVerticalStatus(sender);
-						}else{
-							messenger.sendNormalStatus(sender);
+			playerCommand(label, args, sender);
+		}else{
+			consoleCommands(label,args,sender);
+		}
+		return false;
+	}
+	
+	private void consoleCommands(String label, String[] args, CommandSender sender){
+		if(label.equalsIgnoreCase(BASE_CMD)){
+			if(args.length > 0){
+				if(args[0].equalsIgnoreCase("status")){
+					if(args.length > 1){
+						if(!args[1].isEmpty()){
+							try{
+								boolean b = memory.getSetting(args[1], verticalLock);
+								if(b){
+									messenger.sendConsoleVerticalStatus(sender, args[1]);
+								}else{
+									messenger.sendConsoleNormalStatus(sender, args[1]);
+								}
+							}catch(Exception e){
+								console.sendMessage(PLAYER_EXIST);
+							}
 						}
 					}else{
-						messenger.sendSyntaxMessage(sender);
+						messenger.sendConsoleHelpMessage(sender);
 					}
-				}else{
+				}
+				else if(args[0].equalsIgnoreCase(VERSION)){
+					messenger.sendVersionMessage(sender);
+				}
+			}else{
+				messenger.sendConsoleHelpMessage(sender);
+			}
+		}
+	}
+	
+	private void playerCommand(String label, String[] args, CommandSender sender){
+		String player = sender.getName();
+		if(label.equalsIgnoreCase(BASE_CMD)){
+			if(args.length > 0){
+				if(args[0].equalsIgnoreCase(HELP_CMD)){
+					messenger.sendHelpMessage(sender);
+				}
+				else if(args[0].equalsIgnoreCase(VERSION)){
+					messenger.sendVersionMessage(sender);
+				}
+				else if(args[0].equalsIgnoreCase(TOGGLE)){
 					memory.toggleSetting(player, verticalLock);
 					boolean b = getVerticalLock(player);
 					if(b){
@@ -85,40 +104,26 @@ public class ServerManager implements CommandExecutor{
 						messenger.sendNormalPlacement(sender);
 					}
 				}
-			}
-		}else{
-			if(label.equalsIgnoreCase(BASE_CMD)){
-				if(args.length > 0){
-					if(args[0].equalsIgnoreCase("status")){
-						if(args.length > 1){
-							if(!args[1].isEmpty()){
-								try{
-									boolean b = memory.getSetting(args[1], verticalLock);
-									if(b){
-										messenger.sendConsoleVerticalStatus(sender, args[1]);
-									}else{
-										messenger.sendConsoleNormalStatus(sender, args[1]);
-									}
-								}catch(Exception e){
-									console.sendMessage(PLAYER_EXIST);
-								}
-							}
-						}else{
-							messenger.sendConsoleHelpMessage(sender);
-						}
-					}
-					if(args[0].equalsIgnoreCase("memory")){
-						//serverMemory.logMemory();
-					}
-					if(args[0].equalsIgnoreCase(VERSION)){
-						messenger.sendVersionMessage(sender);
+				else if(args[0].equalsIgnoreCase(STATUS)){
+					boolean b = getVerticalLock(player);
+					if(b){
+						messenger.sendVerticalStatus(sender);
+					}else{
+						messenger.sendNormalStatus(sender);
 					}
 				}else{
-					messenger.sendConsoleHelpMessage(sender);
+					messenger.sendSyntaxMessage(sender);
+				}
+			}else{
+				memory.toggleSetting(player, verticalLock);
+				boolean b = getVerticalLock(player);
+				if(b){
+					messenger.sendVerticalLock(sender);
+				}else{
+					messenger.sendNormalPlacement(sender);
 				}
 			}
 		}
-		return false;
 	}
 
 	public boolean getVerticalLock(String player){
