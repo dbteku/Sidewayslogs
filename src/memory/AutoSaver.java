@@ -5,6 +5,7 @@ import tool.Timer;
 
 public class AutoSaver implements TimerListener{
 
+	private final int MS = 1000;
 	private boolean isRunning = true;
 	private PlayerMemory memory;
 	private int interval;
@@ -16,7 +17,7 @@ public class AutoSaver implements TimerListener{
 	
 	public void start(){
 		int seconds = convertMinutesToSeconds(interval);
-		createNewTimer(seconds);
+		createNewTimer(seconds  * MS);
 	}
 	
 	public void stop(){

@@ -8,8 +8,8 @@ public class Timer {
 	private TimerListener listener;
 	private Timer timer;
 
-	public Timer(int timeInSeconds){
-		this.time = (timeInSeconds * 1000);
+	public Timer(int time){
+		this.time = time;
 		this.timer = this;
 	}
 
@@ -18,17 +18,14 @@ public class Timer {
 
 			@Override
 			public void run() {
-				boolean run = true;
-				long startTime = System.currentTimeMillis();
-				long endTime = 0;
-				while(run){
-					endTime = System.currentTimeMillis();
-					long difference = endTime - startTime;
-					run = difference <= time;
-					if(!run){
-						listener.onTimerComplete(timer);
-					}
+				try {
+
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				listener.onTimerComplete(timer);
 			}
 
 		});
