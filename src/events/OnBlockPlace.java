@@ -23,7 +23,7 @@ public class OnBlockPlace implements Listener, AuthorizedMemoryAccess{
 		this.memory = memory;
 		this.plugin = plugin;
 		this.playerSettings = playerSettings;
-		verticalLock = playerSettings.getVerticalNameSetting();
+		verticalLock = playerSettings.getVerticalSettingId();
 	}
 
 	@EventHandler

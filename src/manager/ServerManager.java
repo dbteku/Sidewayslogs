@@ -28,7 +28,7 @@ public class ServerManager implements CommandExecutor{
 	private PluginManager pm;
 	private PlayerMemory memory;
 	private PlayerSettings playerSettings;
-	private String verticalLock;
+	private String verticalLockId;
 
 	public ServerManager(SideWaysLogs plugin, ConsoleCommandSender console, PluginManager events, Messenger messenger, PlayerMemory memory, PlayerSettings playerSettings){
 		this.plugin = plugin;
@@ -37,7 +37,7 @@ public class ServerManager implements CommandExecutor{
 		this.messenger = messenger;
 		this.memory = memory;
 		this.playerSettings = playerSettings;
-		verticalLock = playerSettings.getVerticalNameSetting();
+		verticalLockId = playerSettings.getVerticalSettingId();
 	}
 
 	public void init(){
@@ -62,7 +62,7 @@ public class ServerManager implements CommandExecutor{
 					if(args.length > 1){
 						if(!args[1].isEmpty()){
 							try{
-								boolean b = memory.getSetting(args[1], verticalLock);
+								boolean b = memory.getSetting(args[1], verticalLockId);
 								if(b){
 									messenger.sendConsoleVerticalStatus(sender, args[1]);
 								}else{
@@ -96,7 +96,7 @@ public class ServerManager implements CommandExecutor{
 					messenger.sendVersionMessage(sender);
 				}
 				else if(args[0].equalsIgnoreCase(TOGGLE)){
-					memory.toggleSetting(player, verticalLock);
+					memory.toggleSetting(player, verticalLockId);
 					boolean b = getVerticalLock(player);
 					if(b){
 						messenger.sendVerticalLock(sender);
@@ -115,7 +115,7 @@ public class ServerManager implements CommandExecutor{
 					messenger.sendSyntaxMessage(sender);
 				}
 			}else{
-				memory.toggleSetting(player, verticalLock);
+				memory.toggleSetting(player, verticalLockId);
 				boolean b = getVerticalLock(player);
 				if(b){
 					messenger.sendVerticalLock(sender);
@@ -127,7 +127,7 @@ public class ServerManager implements CommandExecutor{
 	}
 
 	public boolean getVerticalLock(String player){
-		return memory.getSetting(player, verticalLock);
+		return memory.getSetting(player, verticalLockId);
 	}
 
 }

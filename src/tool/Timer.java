@@ -22,7 +22,6 @@ public class Timer {
 
 					Thread.sleep(time);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				listener.onTimerComplete(timer);

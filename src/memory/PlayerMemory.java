@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import events.OnPlayerLeave;
 import interfaces.AuthorizedMemoryAccess;
+import interfaces.Setting;
 import io.PlayerFileLoader;
 import io.PlayerFileWriter;
 import language.Messenger;
@@ -19,11 +21,12 @@ import player.PlayerSettings;
 
 public class PlayerMemory implements AuthorizedMemoryAccess{
 
+	private final int ONE_MINUTE = 1;
 	private PlayerFileLoader playerInput;
 	private PlayerFileWriter playerOutput;
 	private PlayerSettings playerSettings;
-	private HashMap<String, Object> settings;
-	private HashMap<String, HashMap<String, Object>> localMemory = new HashMap<>();
+	private Map<String, Setting> settings;
+	private HashMap<String, Map<String, Setting>> localMemory = new HashMap<>();
 	private ConsoleCommandSender console;
 	private Messenger messenger;
 	private AutoSaver autoSaver;
@@ -34,19 +37,19 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 		playerInput = new PlayerFileLoader();
 		playerOutput = new PlayerFileWriter();
 		settings = playerSettings.getSettings();
-		autoSaver = new AutoSaver(1, this);
+		autoSaver = new AutoSaver(ONE_MINUTE, this);
 		autoSaver.start();
 	}
 
-	private void putInMemory(String playerName, HashMap<String, Object> settings){
+	private void putInMemory(String playerName, Map<String, Setting> settings){
 		if(!localMemory.containsKey(playerName)){
 			localMemory.put(playerName, settings);
 		}
 	}
 
-	public HashMap<String, Object> getPlayerSettings(AuthorizedMemoryAccess sender, String playerName){
+	public Map<String, Setting> getPlayerSettings(AuthorizedMemoryAccess sender, String playerName){
 
-		HashMap<String, Object> playerSettings = new HashMap<>();
+		Map<String, Setting> playerSettings = new HashMap<>();
 
 		if(sender instanceof AuthorizedMemoryAccess){
 			playerSettings = localMemory.get(playerName);
@@ -58,7 +61,7 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 
 	public void loadFromDisk(AuthorizedMemoryAccess sender, String playerName){
 		if(sender instanceof AuthorizedMemoryAccess){
-			HashMap<String, Object> loadedFile = playerInput.loadPlayerFile(playerName);
+			Map<String, Setting> loadedFile = playerInput.loadPlayerFile(playerName);
 			if(!loadedFile.isEmpty()){
 				putInMemory(playerName, loadedFile);
 
@@ -94,18 +97,18 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 		}
 	}
 
-	public void toggleSetting(String playerName, String setting){
-		HashMap<String, Object> settings = new HashMap<>();
+	public void toggleSetting(String playerName, String settingName){
+		Map<String, Setting> settings = new HashMap<>();
 		boolean isLocked = false;
 		settings = localMemory.get(playerName);
-		isLocked = (boolean) settings.get(setting);
+		Setting setting  = settings.get(settingName);
+		isLocked = setting.isEnabled();
 		isLocked = !isLocked;
-		settings.replace(setting, isLocked);
-		localMemory.replace(playerName, settings);
+		setting.setEnabled(isLocked);
 	}
 
 	public boolean getSetting(String playerName, String setting){
-		HashMap<String, Object> settings = new HashMap<>();
+		Map<String, Setting> settings = new HashMap<>();
 		boolean isLocked = false;
 		if(localMemory.containsKey(playerName)){
 			settings = localMemory.get(playerName);
@@ -113,7 +116,7 @@ public class PlayerMemory implements AuthorizedMemoryAccess{
 			loadFromDisk(this, playerName);
 			settings = localMemory.get(playerName);
 		}
-		isLocked = (boolean) settings.get(setting);
+		isLocked = settings.get(setting).isEnabled();
 
 		if(!playerIsOnline(playerName)){
 			memoryCleanup();

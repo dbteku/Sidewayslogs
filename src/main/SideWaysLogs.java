@@ -52,7 +52,7 @@ public class SideWaysLogs extends JavaPlugin {
 	}
 	
 	public void checkOnlinePlayers(){
-			memory.checkCurrentPlayers();
+		memory.checkCurrentPlayers();
 	}
 	
 }

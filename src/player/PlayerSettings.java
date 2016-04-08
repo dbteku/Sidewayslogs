@@ -1,28 +1,33 @@
 package player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+
+import interfaces.Setting;
+import settings.VerticalLock;
 
 public class PlayerSettings {
 
-	private final String VERTICAL_NAME = "Vertical-Lock";
 	private final boolean VERTICAL_VALUE = false;
-	private HashMap<String, Object> settings = new HashMap<>();
+	private HashMap<String, Setting> settings = new HashMap<>();
+	private Setting verticalLock;
 	
 	public PlayerSettings(){
-		settings.put(VERTICAL_NAME, VERTICAL_VALUE);
-	}
-	
-	public HashMap<String, Object> getSettings(){
-		return settings;
+		verticalLock = new VerticalLock(VERTICAL_VALUE);
+		settings.put(verticalLock.getName(), verticalLock);
 	}
 	
 	public Set<String> getKeys(){
 		return settings.keySet();
 	}
-	
-	public String getVerticalNameSetting(){
-		return VERTICAL_NAME;
+
+	public Map<String, Setting> getSettings() {
+		return settings;
+	}
+
+	public String getVerticalSettingId() {
+		return verticalLock.getName();
 	}
 	
 }

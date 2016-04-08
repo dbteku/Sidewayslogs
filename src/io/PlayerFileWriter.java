@@ -4,10 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
+
+import interfaces.Setting;
 
 public class PlayerFileWriter {
 
@@ -19,23 +23,23 @@ public class PlayerFileWriter {
 		createDirectory();
 	}
 
-	public void createNewFile(String playerName, HashMap<String,Object> settings) {
+	public void createNewFile(String playerName, Map<String,Setting> settings) {
 		encode(playerName,settings);
 	}
 	
-	public void update(String playerName, HashMap<String,Object> settings){
+	public void update(String playerName, Map<String,Setting> settings){
 		encode(playerName,settings);
 	}
 
-	private void encode(String playerName, HashMap<String,Object> settings){
+	private void encode(String playerName, Map<String,Setting> settings){
 
-		ArrayList<String> nameSettings = new ArrayList<String>();
-		ArrayList<Object> values = new ArrayList<Object>();
+		List<String> nameSettings = new ArrayList<>();
+		List<Setting> values = new ArrayList<>();
 		Set<String> names = settings.keySet();
 
 		for(String s: names){
 			nameSettings.add(s);
-			values.add((Boolean) settings.get(s));
+			values.add(settings.get(s));
 		}
 
 		try{
@@ -49,7 +53,7 @@ public class PlayerFileWriter {
 		}
 	}
 
-	private void write(String playerName, ArrayList<String> names, ArrayList<Object> values) throws Exception{
+	private void write(String playerName, List<String> names, List<Setting> values) throws Exception{
 
 		XMLOutputFactory output = XMLOutputFactory.newFactory();
 		XMLStreamWriter writer = output.createXMLStreamWriter(new FileOutputStream("plugins/SWL/players/" + playerName + FILE_TYPE));
@@ -58,7 +62,7 @@ public class PlayerFileWriter {
 		writer.writeStartElement(SETTINGS);
 		Boolean b = false;
 		for(int x = 0; x < names.size(); x++){
-			b = (Boolean) values.get(x);
+			b = (Boolean) values.get(x).isEnabled();
 			writer.writeAttribute(names.get(x), Boolean.toString(b));
 		}
 
