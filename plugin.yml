@@ -1,6 +1,6 @@
 name: SideWaysLogs
 main: com.dbteku.main.SideWaysLogs
-version: 3.0.0
+version: 3.0.1
 api-version: 1.13
 description: >
              Locking vertical orientation when placing logs.

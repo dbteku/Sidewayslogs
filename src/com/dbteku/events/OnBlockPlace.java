@@ -39,7 +39,13 @@ public class OnBlockPlace implements Listener{
 					block.getType() == Material.STRIPPED_DARK_OAK_LOG ||
 					block.getType() == Material.STRIPPED_JUNGLE_LOG ||
 					block.getType() == Material.STRIPPED_OAK_LOG ||
-					block.getType() == Material.STRIPPED_SPRUCE_LOG
+					block.getType() == Material.STRIPPED_SPRUCE_LOG ||
+					block.getType() == Material.STRIPPED_ACACIA_WOOD ||
+					block.getType() == Material.STRIPPED_BIRCH_WOOD ||
+					block.getType() == Material.STRIPPED_DARK_OAK_WOOD ||
+					block.getType() == Material.STRIPPED_JUNGLE_WOOD ||
+					block.getType() == Material.STRIPPED_OAK_WOOD ||
+					block.getType() == Material.STRIPPED_SPRUCE_WOOD
 					) {
 				flipBlock(block);
 			}
@@ -47,15 +53,13 @@ public class OnBlockPlace implements Listener{
 	}
 
 	private void flipBlock(Block block){
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-			public void run(){
-				BlockData data = block.getBlockData();
-			    if(data instanceof Orientable) {
-			    	Orientable orientation = (Orientable) data;
-			        orientation.setAxis(Axis.Y);
-			        block.setBlockData(orientation);
-			    }
-			}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
+			BlockData data = block.getBlockData();
+		    if(data instanceof Orientable) {
+		    	Orientable orientation = (Orientable) data;
+		        orientation.setAxis(Axis.Y);
+		        block.setBlockData(orientation);
+		    }
 		});
 	}
 	
